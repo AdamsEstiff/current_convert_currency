@@ -18,4 +18,10 @@ export default {
 body{
   background: #EDF1FF;
 }
+.el-select{
+  width: 100%;
+}
+.el-input-number{
+  width: 100%;
+}
 </style>
