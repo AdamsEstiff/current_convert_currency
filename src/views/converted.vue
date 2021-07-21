@@ -6,7 +6,7 @@
           <h1>Convertidor de monedas</h1>
         </div>
         <el-row :gutter="24">
-          <el-form v-model="form" :rules="rules" ref="form">
+          <el-form v-model="form" ref="form">
             <el-col :span="12" :xl="12" :xs='24'>
               <el-form-item label="De">
                 <el-select v-model="convert" filterable placeholder="Seleccionar">
@@ -33,10 +33,10 @@
             </el-col>
             <el-col :span="24">
               <el-form-item label="Cantidad" prop="amount">
-                <el-input v-model="form.amount" placeholder="Inserte la cantidad"></el-input>
+                <el-input-number :min="0" v-model="form.amount" placeholder="Inserte la cantidad"></el-input-number>
               </el-form-item>
             </el-col>
-            <el-col :span="8" class="mr-1">
+            <el-col :span="8" v-if="form.amount>0" class="mr-1">
               <el-button icon="el-icon-s-help" type="primary" :loading="loading" @click="convertCurrency()">
                 Convertir
               </el-button>
@@ -60,7 +60,7 @@ import axios from "axios"
 export default ({
   data() {
     return {
-      apiKey: 'e464bec0eef0658da85b',
+      apiKey: '9385|wQ05PS3hi5ZOhHXeu3ir^oz0uS4NguzH',
       currencies: {},
       response: {},
       result: 0,
@@ -70,10 +70,7 @@ export default ({
       },
       convert: 'USD',
       converting: 'EUR',
-      number: 0,
-      rules: {
-        amount: {required: true, message: 'Inserte el monto a convertir', trigger: 'change'},
-      }
+      number: 0
     }
   },
   methods: {
@@ -89,19 +86,19 @@ export default ({
           })
     },
     convertCurrency() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
           this.loading = true;
           axios.get('https://free.currconv.com/api/v7/convert?q=' + this.convert + '_' + this.converting + '&apiKey=' + this.apiKey).then((response) => {
-            this.loading = false;
-            this.response = response;
-            this.result = response.data.results[this.convert + '_' + this.converting].val;
-          })
-        } else {
-          return false;
-        }
-      });
-
+              this.loading = false;
+              console.log(response);
+              this.response = response;
+              this.result = response.data.results[this.convert + '_' + this.converting].val;
+              console.log(this.response);
+            
+            }).catch(
+              (e)=>{
+                this.loading=false;
+                 this.$message.error(''+e);              }
+            ) 
     }
   },
   computed: {
