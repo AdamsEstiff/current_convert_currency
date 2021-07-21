@@ -3,7 +3,7 @@
     <el-card class="card">
       <div class="card-body">
         <div class="card-title text-center">
-          <h1>Convertidor de monedas</h1>
+          <h1> <i class="el-icon-refresh"></i>Convertidor de divisas</h1>
         </div>
         <el-row :gutter="24">
           <el-form v-model="form" ref="form">
